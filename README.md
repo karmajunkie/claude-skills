@@ -5,7 +5,11 @@ Custom Claude Code skills for development workflows.
 ## Installation
 
 ```bash
-/plugin install github.com/karmajunkie/claude-skills
+# Add the marketplace
+claude plugin marketplace add https://github.com/karmajunkie/claude-skills
+
+# Install the plugin
+claude plugin install claude-skills@karmajunkie-skills
 ```
 
 ## Skills
