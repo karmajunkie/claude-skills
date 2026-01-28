@@ -44,7 +44,7 @@ Features:
 
 ## Requirements
 
-- [Linear CLI](https://github.com/linear/linear-cli) for fetching ticket details
+- [Linear CLI](https://github.com/schpet/linear-cli/) for fetching ticket details
 - Git with worktree support
 - Elixir/Mix for Ash-based projects
 
