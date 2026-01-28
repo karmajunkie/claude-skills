@@ -1,0 +1,12 @@
+{
+  "name": "karmajunkie-skills",
+  "description": "Custom Claude Code skills for development workflows",
+  "plugins": [
+    {
+      "name": "claude-skills",
+      "source": ".",
+      "description": "Git worktree management skills for Linear tickets",
+      "version": "1.0.0"
+    }
+  ]
+}
