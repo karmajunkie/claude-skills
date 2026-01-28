@@ -1,0 +1,10 @@
+{
+  "name": "claude-skills",
+  "description": "Custom Claude Code skills for git worktree management with Linear tickets",
+  "version": "1.0.0",
+  "author": {
+    "name": "karmajunkie"
+  },
+  "repository": "https://github.com/karmajunkie/claude-skills",
+  "license": "MIT"
+}
