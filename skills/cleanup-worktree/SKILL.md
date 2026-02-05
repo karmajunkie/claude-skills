@@ -2,7 +2,7 @@
 name: cleanup-worktree
 description: Remove a git worktree created for a Linear ticket
 argument-hint: "<ticket-id>"
-allowed-tools: Bash, Read, Glob, Grep, AskUserQuestion
+allowed-tools: Bash, Read, Glob, Grep
 ---
 
 # Cleanup Worktree for Linear Ticket
@@ -69,35 +69,22 @@ Remove a git worktree that was created for parallel development on a Linear tick
      git worktree prune
      ```
 
-8. **Optionally delete the branch** (ask user):
-   - If the branch was merged or user wants to delete it:
+8. **Delete the branch**:
+   - Try safe delete first:
      ```bash
      git branch -d <branch-name>
      ```
-   - If not merged but user confirms deletion:
+   - If not merged, force delete:
      ```bash
      git branch -D <branch-name>
      ```
 
-9. **Drop the test database partition** (optional, ask user if they want this):
-   - Get the MIX_TEST_PARTITION from the worktree's .env file before deletion, or infer from worktree number
-   - For Ash projects:
-     ```bash
-     MIX_TEST_PARTITION=<N> mix ash.drop
-     ```
-   - For standard Ecto projects:
-     ```bash
-     MIX_TEST_PARTITION=<N> mix ecto.drop
-     ```
-
-10. **Report the results** to the user:
+9. **Report the results** to the user:
    - Confirm worktree was removed
-   - Confirm branch status (deleted or kept)
-   - Confirm database status (dropped or kept)
+   - Confirm branch was deleted
 
 ## Notes
 
 - Always verify with the user before deleting uncommitted work
 - The worktree directory is in the parent directory (`../<repo-name>-<ticket-id-lowercase>`)
 - If `git worktree remove` fails, fall back to manual removal + prune
-- Branch deletion is optional - the user may want to keep it for reference
