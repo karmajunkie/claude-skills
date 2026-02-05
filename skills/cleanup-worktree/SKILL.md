@@ -15,36 +15,47 @@ Remove a git worktree that was created for parallel development on a Linear tick
 
 ## Steps
 
-1. **Determine the base repo name**:
+1. **Determine the main repo and switch to it**:
+   ```bash
+   git worktree list
+   ```
+   - Identify the main worktree (the one without a branch suffix in brackets, or marked as `(bare)`)
+   - If currently in a worktree that will be deleted, change to the main repo first:
+     ```bash
+     cd <main-repo-path>
+     ```
+   - This ensures cleanup commands run from the main repo context
+
+2. **Determine the base repo name**:
    ```bash
    basename $(git rev-parse --show-toplevel)
    ```
    - Use this as `<repo-name>` in subsequent steps
 
-2. **Find the worktree** by listing existing worktrees:
+3. **Find the worktree** by listing existing worktrees:
    ```bash
    git worktree list
    ```
    - Look for a worktree matching the ticket ID pattern (case-insensitive)
    - The directory should be named `<repo-name>-<ticket-id-lowercase>` (e.g., `MyApp-int-70`)
 
-3. **Verify the worktree exists**:
+4. **Verify the worktree exists**:
    - If no matching worktree is found, inform the user and exit
    - If found, note the worktree path and branch name
 
-4. **Check for uncommitted changes** in the worktree:
+5. **Check for uncommitted changes** in the worktree:
    ```bash
    git -C <worktree-path> status --porcelain
    ```
    - If there are uncommitted changes, warn the user and ask for confirmation before proceeding
 
-5. **Check for unpushed commits** in the worktree:
+6. **Check for unpushed commits** in the worktree:
    ```bash
    git -C <worktree-path> log @{u}.. --oneline 2>/dev/null || echo "no upstream"
    ```
    - If there are unpushed commits, warn the user and ask for confirmation
 
-6. **Remove the worktree**:
+7. **Remove the worktree**:
    ```bash
    git worktree remove <worktree-path>
    ```
@@ -58,7 +69,7 @@ Remove a git worktree that was created for parallel development on a Linear tick
      git worktree prune
      ```
 
-7. **Optionally delete the branch** (ask user):
+8. **Optionally delete the branch** (ask user):
    - If the branch was merged or user wants to delete it:
      ```bash
      git branch -d <branch-name>
@@ -68,7 +79,7 @@ Remove a git worktree that was created for parallel development on a Linear tick
      git branch -D <branch-name>
      ```
 
-8. **Drop the test database partition** (optional, ask user if they want this):
+9. **Drop the test database partition** (optional, ask user if they want this):
    - Get the MIX_TEST_PARTITION from the worktree's .env file before deletion, or infer from worktree number
    - For Ash projects:
      ```bash
@@ -79,7 +90,7 @@ Remove a git worktree that was created for parallel development on a Linear tick
      MIX_TEST_PARTITION=<N> mix ecto.drop
      ```
 
-9. **Report the results** to the user:
+10. **Report the results** to the user:
    - Confirm worktree was removed
    - Confirm branch status (deleted or kept)
    - Confirm database status (dropped or kept)

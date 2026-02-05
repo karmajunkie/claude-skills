@@ -69,16 +69,19 @@ Create a git worktree for parallel development on the given Linear ticket.
    cd ../<repo-name>-<ticket-id-lowercase> && MIX_TEST_PARTITION=<N> mix ash.setup
    ```
 
-10. **Report the results** to the user:
-    - Worktree location
+10. **Change to the new worktree directory**:
+    ```bash
+    cd ../<repo-name>-<ticket-id-lowercase>
+    ```
+    - This ensures all subsequent work happens in the new worktree context
+    - If using direnv, run `direnv allow` after changing directories
+
+11. **Report the results** to the user:
+    - Worktree location (now the current working directory)
     - Branch name
     - Assigned MIX_TEST_PARTITION number
     - Note that MIX_TEST_PARTITION is set in `.env`
-    - Instructions for starting work:
-      ```
-      cd ../<repo-name>-<ticket-id-lowercase>
-      ```
-    - If using direnv, remind them to run `direnv allow`
+    - Confirm you are now working in the new worktree
 
 ## Notes
 
