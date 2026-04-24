@@ -53,20 +53,19 @@ Create a git worktree for parallel development on the given Linear ticket.
 7. **Copy environment files** from the source repo:
    ```bash
    cp .env* ../<repo-name>-<ticket-id-lowercase>/ 2>/dev/null || true
-   cp -P .envrc ../<repo-name>-<ticket-id-lowercase>/ 2>/dev/null || true
    ```
    Note: `-P` preserves the symlink
 
 8. **Set MIX_TEST_PARTITION in .env** for the new worktree:
    - Remove any existing `MIX_TEST_PARTITION` line, then append the new value
    ```bash
-   sed -i '/^export MIX_TEST_PARTITION=/d' ../<repo-name>-<ticket-id-lowercase>/.env 2>/dev/null || true
-   echo "export MIX_TEST_PARTITION=<N>" >> ../<repo-name>-<ticket-id-lowercase>/.env
+   sed -i '/^MIX_TEST_PARTITION=/d' ../<repo-name>-<ticket-id-lowercase>/.env 2>/dev/null || true
+   echo "MIX_TEST_PARTITION=<N>" >> ../<repo-name>-<ticket-id-lowercase>/.env
    ```
 
 9. **Set up the test database** with the assigned partition:
    ```bash
-   cd ../<repo-name>-<ticket-id-lowercase> && MIX_TEST_PARTITION=<N> mix ash.setup
+   cd ../<repo-name>-<ticket-id-lowercase> && MIX_TEST_PARTITION=<N> mix setup
    ```
 
 10. **Report the results** to the user:
@@ -80,4 +79,4 @@ Create a git worktree for parallel development on the given Linear ticket.
 - Always create worktrees in the parent directory (`../`)
 - Use lowercase ticket ID in the directory name (e.g., `MyApp-int-70`)
 - Keep the original ticket ID case in the branch name (e.g., `INT-70/...`)
-- If `mix ash.setup` fails, try `mix deps.get` first
+- If `mix setup` fails, try `mix deps.get` first
