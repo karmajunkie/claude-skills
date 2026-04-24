@@ -53,6 +53,7 @@ Create a git worktree for parallel development on the given Linear ticket.
 7. **Copy environment files** from the source repo:
    ```bash
    cp .env* ../<repo-name>-<ticket-id-lowercase>/ 2>/dev/null || true
+   cp CLAUDE.local.md ../<repo-name>-<ticket-id-lowercase>/
    ```
    Note: `-P` preserves the symlink
 
