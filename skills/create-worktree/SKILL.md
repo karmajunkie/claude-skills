@@ -56,6 +56,8 @@ Create a git worktree for parallel development on the given Linear ticket.
    ```
    Note: `-P` preserves the symlink
 
+7a. Run `mise trust` in the new worktree
+
 8. **Set MIX_TEST_PARTITION in .env** for the new worktree:
    - Remove any existing `MIX_TEST_PARTITION` line, then append the new value
    ```bash
