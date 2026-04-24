@@ -63,7 +63,6 @@ Analyze the Linear ticket associated with the current git worktree and develop a
 
 ## Notes
 
-- This skill assumes you're working in an Elixir/Phoenix project with Ash Framework
-- The Linear CLI must be installed and configured
+- This skill assumes you're working in an Elixir/Phoenix project
 - If the branch doesn't follow the `<ticket-id>/<description>` pattern, ask the user for the ticket ID
 - Focus on understanding the full scope before proposing solutions
