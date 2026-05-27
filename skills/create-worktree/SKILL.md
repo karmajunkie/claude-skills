@@ -2,7 +2,7 @@
 name: create-worktree
 description: Create a git worktree for a Linear ticket with deps pre-copied
 argument-hint: "<ticket-id>"
-allowed-tools: Bash, Read, Glob, Grep
+allowed-tools: Bash, Read, Glob, Grep, EnterWorktree
 ---
 
 # Create Worktree for Linear Ticket
@@ -71,7 +71,9 @@ Create a git worktree for parallel development on the given Linear ticket.
    cd ../<repo-name>-<ticket-id-lowercase> && MIX_TEST_PARTITION=<N> mix setup
    ```
 
-10. **Report the results** to the user:
+10. **Switch CWD to the new worktree** using the `EnterWorktree` tool with the worktree path (`../<repo-name>-<ticket-id-lowercase>`). This ensures subsequent tool calls operate inside the new worktree rather than the original repo.
+
+11. **Report the results** to the user:
     - Worktree location
     - Branch name
     - Assigned MIX_TEST_PARTITION number
