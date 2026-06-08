@@ -38,22 +38,22 @@ Create a git worktree for parallel development on the given Linear ticket.
    - Main repo uses no partition (or partition 0)
    - Assign the next unused integer (1, 2, 3, etc.)
 
-5. **Create the worktree** in the parent directory:
+5. **Create the worktree** in  `.claude/worktrees`
    ```bash
-   git worktree add ../<repo-name>-<ticket-id-lowercase> -b <branch-name> main
+   git worktree add .claude/worktrees/<repo-name>-<ticket-id-lowercase> -b <branch-name> main
    ```
-   - Example: `git worktree add ../MyApp-int-70 -b INT-70/sms-multi-client-association main`
+   - Example: `git worktree add .claude/worktrees/MyApp-int-70 -b INT-70/sms-multi-client-association main`
 
 6. **Copy deps and _build folders** to avoid recompilation:
    ```bash
-   cp -r deps ../<repo-name>-<ticket-id-lowercase>/
-   cp -r _build ../<repo-name>-<ticket-id-lowercase>/
+   cp -r deps .claude/worktrees/<repo-name>-<ticket-id-lowercase>/
+   cp -r _build .claude/worktrees/<repo-name>-<ticket-id-lowercase>/
    ```
 
 7. **Copy environment files** from the source repo:
    ```bash
-   cp .env* ../<repo-name>-<ticket-id-lowercase>/ 2>/dev/null || true
-   cp CLAUDE.local.md ../<repo-name>-<ticket-id-lowercase>/
+   cp .env* .claude/worktrees/<repo-name>-<ticket-id-lowercase>/ 2>/dev/null || true
+   cp CLAUDE.local.md .claude/worktrees/<repo-name>-<ticket-id-lowercase>/
    ```
    Note: `-P` preserves the symlink
 
@@ -62,16 +62,16 @@ Create a git worktree for parallel development on the given Linear ticket.
 8. **Set MIX_TEST_PARTITION in .env** for the new worktree:
    - Remove any existing `MIX_TEST_PARTITION` line, then append the new value
    ```bash
-   sed -i '/^MIX_TEST_PARTITION=/d' ../<repo-name>-<ticket-id-lowercase>/.env 2>/dev/null || true
-   echo "MIX_TEST_PARTITION=<N>" >> ../<repo-name>-<ticket-id-lowercase>/.env
+   sed -i '/^MIX_TEST_PARTITION=/d' .claude/worktrees/<repo-name>-<ticket-id-lowercase>/.env 2>/dev/null || true
+   echo "MIX_TEST_PARTITION=<N>" >> .claude/worktrees/<repo-name>-<ticket-id-lowercase>/.env
    ```
 
 9. **Set up the test database** with the assigned partition:
    ```bash
-   cd ../<repo-name>-<ticket-id-lowercase> && MIX_TEST_PARTITION=<N> mix setup
+   cd .claude/worktrees/<repo-name>-<ticket-id-lowercase> && MIX_TEST_PARTITION=<N> mix setup
    ```
 
-10. **Switch CWD to the new worktree** using the `EnterWorktree` tool with the worktree path (`../<repo-name>-<ticket-id-lowercase>`). This ensures subsequent tool calls operate inside the new worktree rather than the original repo.
+10. **Switch CWD to the new worktree** using the `EnterWorktree` tool with the worktree path (`.claude/worktrees/<repo-name>-<ticket-id-lowercase>`). This ensures subsequent tool calls operate inside the new worktree rather than the original repo.
 
 11. **Report the results** to the user:
     - Worktree location
@@ -81,7 +81,7 @@ Create a git worktree for parallel development on the given Linear ticket.
 
 ## Notes
 
-- Always create worktrees in the parent directory (`../`)
+- Always create worktrees in the claude worktrees directory (`../`)
 - Use lowercase ticket ID in the directory name (e.g., `MyApp-int-70`)
 - Keep the original ticket ID case in the branch name (e.g., `INT-70/...`)
 - If `mix setup` fails, try `mix deps.get` first
